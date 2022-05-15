@@ -5,13 +5,22 @@
 package uk.ac.shef.oak.jobserviceexample;
 
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.text.BreakIterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -22,12 +31,16 @@ public class Service extends android.app.Service {
     private static String TAG = "Service";
     private static Service mCurrentService;
     private int counter = 0;
+    private JobScheduler mScheduler;
+    private static final int JOB_ID = 0;
+
 
     public Service() {
         super();
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onCreate() {
         super.onCreate();
@@ -142,7 +155,7 @@ public class Service extends android.app.Service {
 
         Log.i(TAG, "Scheduling...");
         //schedule the timer, to wake up every 1 second
-        timer.schedule(timerTask, 1000, 1000); //
+        timer.schedule(timerTask, 1000, 10*60*1000); //
     }
 
     /**
@@ -151,11 +164,60 @@ public class Service extends android.app.Service {
     public void initializeTimerTask() {
         Log.i(TAG, "initialising TimerTask");
         timerTask = new TimerTask() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             public void run() {
-                Log.i("in timer", "in timer ++++  " + (counter++));
+                //Log.i("in timer", "in timer ++++  " + (counter++));
+                scheduleJob();
+                //tuka dodadi go kodot od demo kol i stavi gi tie klasi plus samo smeni go linkot za da go vlece backendot
+                //vo network util treba da se smeni linkot
+                //i posle da se isparsira json object
+                //i posle kodot od linkot treba da se ispinga vo samiot android posle toa so json
+                //plus dodadi timer ili thread.sleep so while za da spie kaj toj kafeav kod
+
             }
         };
+
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void scheduleJob() {
+        Log.i("proba123","se povika scheduleJob()");
+        mScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+
+        int selectedNetworkOption = JobInfo.NETWORK_TYPE_ANY;
+
+        ComponentName serviceName = new ComponentName(getPackageName(),
+                NotificationJobService.class.getName());
+        JobInfo.Builder builder = new JobInfo.Builder(JOB_ID, serviceName)
+                .setRequiredNetworkType(selectedNetworkOption)
+                .setRequiresCharging(true);
+        JobInfo myJobInfo = builder.build();
+        mScheduler.schedule(myJobInfo);
+        Toast.makeText(this, "Job scheduled", Toast.LENGTH_SHORT).show();
+
+        try {
+            String host = "";
+            String pingCmd = "ping -s 100 -c 10 " + host;
+            String pingResult = "";
+            Runtime r = Runtime.getRuntime();
+            Process p = r.exec(pingCmd);
+            BufferedReader in = new BufferedReader(new
+                    InputStreamReader(p.getInputStream()));
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                System.out.println(inputLine);
+                BreakIterator text = null;
+                text.setText(inputLine + "\n\n");
+                pingResult += inputLine;
+                text.setText(pingResult);
+            }
+            in.close();
+        }//try
+        catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+
 
     /**
      * not needed

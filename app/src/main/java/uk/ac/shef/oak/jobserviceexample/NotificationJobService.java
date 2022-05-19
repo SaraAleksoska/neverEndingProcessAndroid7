@@ -17,7 +17,7 @@ public class NotificationJobService extends JobService {
 
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
-        Log.d("proba", "se povika onStartJob");
+        Log.d("PERO", "se povika onStartJob");
         new RESTget().execute();
         return true;
     }

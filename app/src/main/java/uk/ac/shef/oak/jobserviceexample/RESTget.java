@@ -10,6 +10,7 @@ import org.json.JSONObject;
 public class RESTget extends AsyncTask<Void, Void, Void> {
 
     @Override
+    //ovde e void ako ne prakame nisto a nie bidejki prakame ne treba da e void zatoa ne ni raboti - slajd 18
     protected Void doInBackground(Void... voids) {
         Log.d("PERO", "se povika doInBackground");
         String resultString = NetworkUtils.getInfo();

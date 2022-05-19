@@ -14,7 +14,7 @@ import java.net.URL;
 
 public class NetworkUtils {
 
-    private static final String BASE_URL =  "http://127.0.0.1:5000/getjobs";
+    private static final String BASE_URL =  "http://10.0.2.2:5000/getjobs/emulator";
 
     static String getInfo() {
         Log.d("PERO", "se povika getInfo");
@@ -46,6 +46,7 @@ public class NetworkUtils {
             JSONString = builder.toString();
 
         } catch (IOException e) {
+            Log.i("PERO", "nesto bidna ahahha");
             e.printStackTrace();
         } finally {
             if (urlConnection != null) {
@@ -60,7 +61,8 @@ public class NetworkUtils {
             }
         }
 
-        Log.d("PERO", JSONString);
+        //Log.d("PERO", JSONString);
+        Log.i("PERO", "nesto bidna po vtor pat");
         return JSONString;
     }
 }

@@ -181,7 +181,7 @@ public class Service extends android.app.Service {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void scheduleJob() {
-        Log.i("proba123","se povika scheduleJob()");
+        Log.i("PERO","se povika scheduleJob()");
         mScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
 
         int selectedNetworkOption = JobInfo.NETWORK_TYPE_ANY;
@@ -193,7 +193,8 @@ public class Service extends android.app.Service {
                 .setRequiresCharging(true);
         JobInfo myJobInfo = builder.build();
         mScheduler.schedule(myJobInfo);
-        Toast.makeText(this, "Job scheduled", Toast.LENGTH_SHORT).show();
+        Log.i("PERO", "se povika kraj na schaduleJob()");
+        //Toast.makeText(this, "Job scheduled", Toast.LENGTH_SHORT).show();
 
         try {
             String host = "";

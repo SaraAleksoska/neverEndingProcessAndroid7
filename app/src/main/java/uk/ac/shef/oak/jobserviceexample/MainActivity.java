@@ -5,6 +5,9 @@
 package uk.ac.shef.oak.jobserviceexample;
 
 import android.app.Activity;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -28,6 +31,14 @@ public class MainActivity extends Activity {
         } else {
             ProcessMainClass bck = new ProcessMainClass();
             bck.launchService(getApplicationContext());
+        }
+
+
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = null;
+        if (connMgr != null) {
+            networkInfo = connMgr.getActiveNetworkInfo();
         }
     }
 }

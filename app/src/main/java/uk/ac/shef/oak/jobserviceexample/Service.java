@@ -196,27 +196,7 @@ public class Service extends android.app.Service {
         Log.i("PERO", "se povika kraj na schaduleJob()");
         //Toast.makeText(this, "Job scheduled", Toast.LENGTH_SHORT).show();
 
-        try {
-            String host = "";
-            String pingCmd = "ping -s 100 -c 10 " + host;
-            String pingResult = "";
-            Runtime r = Runtime.getRuntime();
-            Process p = r.exec(pingCmd);
-            BufferedReader in = new BufferedReader(new
-                    InputStreamReader(p.getInputStream()));
-            String inputLine;
-            while ((inputLine = in.readLine()) != null) {
-                System.out.println(inputLine);
-                BreakIterator text = null;
-                text.setText(inputLine + "\n\n");
-                pingResult += inputLine;
-                text.setText(pingResult);
-            }
-            in.close();
-        }//try
-        catch (IOException e) {
-            System.out.println(e);
-        }
+
     }
 
 

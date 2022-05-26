@@ -75,6 +75,11 @@ public class RestartServiceBroadcastReceiver extends BroadcastReceiver {
                 // https://stackoverflow.com/questions/51064731/firing-jobservice-without-constraints
                 .setOverrideDeadline(0)
                 .setPersisted(true).build();
+        //JobInfo.Builder myJobBuilder = new JobInfo.Builder(1,new ComponentName(getPackegeName(), MyNewJob.class.getName()))
+        //.setRequestCharging(true);
+        //.setRequestNetworkType(JobInfo.NETWORK_TYPE_ANY);
+        //.setRequestDeviceIdle(false);
+        //jobInfo = myJobBuilder.build();
         jobScheduler.schedule(jobInfo);
     }
 
